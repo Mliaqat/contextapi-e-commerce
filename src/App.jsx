@@ -1,8 +1,8 @@
-import { useState } from 'react';
-
-import Header from './components/Header.jsx';
-import Shop from './components/Shop.jsx';
-import { DUMMY_PRODUCTS } from './dummy-products.js';
+import { useState } from "react";
+import Header from "./components/Header.jsx";
+import Shop from "./components/Shop.jsx";
+import { DUMMY_PRODUCTS } from "./dummy-products.js";
+import { ShoppingCart } from "./store/Shopping-Cart-Context.jsx";
 
 function App() {
   const [shoppingCart, setShoppingCart] = useState({
@@ -65,14 +65,17 @@ function App() {
     });
   }
 
+  const cartCtx = {
+    items: shoppingCart.items,
+    addItemToCart: handleAddItemToCart,
+    updatedItemQty:handleUpdateCartItemQuantity
+  };
+
   return (
-    <>
-      <Header
-        cart={shoppingCart}
-        onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
-      />
-      <Shop onAddItemToCart={handleAddItemToCart} />
-    </>
+    <ShoppingCart.Provider value={cartCtx}>
+      <Header />
+      <Shop />
+    </ShoppingCart.Provider>
   );
 }
 
